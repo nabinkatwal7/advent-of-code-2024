@@ -81,6 +81,21 @@ func Part1() {
 	fmt.Printf("total distance: %.0f\n ", totalDistance)
 }
 
+func calculateSimilarityScore(column1, column2 []int) int {
+	countMap := make(map[int]int)
+
+	for _, num := range column2 {
+		countMap[num]++
+	}
+
+	var totalScore int
+	for _, num := range column1 {
+		totalScore += num * countMap[num]
+	}
+
+	return totalScore
+}
+
 func Part2() {
 
 	filepath := "./day-one/input.txt"
@@ -92,6 +107,7 @@ func Part2() {
 		return
 	}
 
-	fmt.Println(column1)
-	fmt.Println(column2)
+	totalScore := calculateSimilarityScore(column1, column2)
+
+	fmt.Println("total similarity score:", totalScore)
 }
