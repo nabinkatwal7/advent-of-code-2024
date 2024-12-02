@@ -38,6 +38,24 @@ func checkReportSafety(levels []int) bool {
 	return isIncreasing || isDecreasing
 }
 
+func checkReportSafetyWithDampener(levels []int) bool {
+	if checkReportSafety(levels) {
+		return true
+	}
+
+	for i := 0; i < len(levels); i++ {
+		modifiedLevels := make([]int, 0, len(levels)-1)
+		modifiedLevels = append(modifiedLevels, levels[:i]...)
+		modifiedLevels = append(modifiedLevels, levels[i+1:]...)
+
+		if checkReportSafety(modifiedLevels) {
+			return true
+		}
+	}
+
+	return false
+}
+
 func Part1() {
 	file, err := os.Open("./day-two/input.txt")
 	if err != nil {
@@ -62,7 +80,7 @@ func Part1() {
 			levels[i] = level
 		}
 
-		if checkReportSafety(levels) {
+		if checkReportSafetyWithDampener(levels) {
 			safeReportsCount++
 		}
 	}
